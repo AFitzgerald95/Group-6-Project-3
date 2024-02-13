@@ -38,9 +38,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ],
-    "authors":
-    "license",
-    "dependencies" , 
-    
+    "authors": [
+      "Your Name <your.email@example.com>"
+    ],
+    "license": "MIT"
   }
 }
