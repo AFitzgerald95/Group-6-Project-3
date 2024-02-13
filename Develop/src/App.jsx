@@ -1,44 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Login from './Login';
-import Rewards from './Rewards';
-import Menu from './Menu';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Login from './components/Login';
+import Rewards from './components/Rewards';
+import Menu from './components/Menu';
+import './App.css';
 
-function App() {
+
+const App = () => {
   return (
     <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Login</Link>
-            </li>
-            <li>
-              <Link to="/rewards">View Rewards</Link>
-            </li>
-            <li>
-              <Link to="/menu">Menu</Link>
-            </li>
-          </ul>
-        </nav>
-
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/rewards">
-            <Rewards />
-          </Route>
-          <Route path="/menu">
-            <Menu />
-          </Route>
-          <Route path="/">
-            <Login />
-          </Route>
-        </Switch>
-      </div>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/rewards" element={<Rewards />} />
+        <Route path="/menu" element={<Menu />} />
+        <Route path="/" element={<Login />} />
+      </Routes>
     </Router>
   );
-}
+};
 
 export default App;
