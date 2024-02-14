@@ -8,10 +8,20 @@ function Menu() {
         <h3>Dishes:</h3>
         <ul>
           <li>1. Spaghetti Carbonara</li>
+          <p>{item.description}</p>
+          <p>Price: ${item.price.toFixed(2)}</p>
           <li>2. Grilled Salmon</li>
+          <p>{item.description}</p>
+          <p>Price: ${item.price.toFixed(2)}</p>
           <li>3. Margherita Pizza</li>
+          <p>{item.description}</p>
+          <p>Price: ${item.price.toFixed(2)}</p>
           <li>4. Chicken Alfredo</li>
+          <p>{item.description}</p>
+          <p>Price: ${item.price.toFixed(2)}</p>
           <li>5. Caesar Salad</li>
+          <p>{item.description}</p>
+          <p>Price: ${item.price.toFixed(2)}</p>
         </ul>
       </div>
     </div>
