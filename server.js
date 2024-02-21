@@ -1,13 +1,33 @@
 const express = require('express');
-const app = express();
-const port = 3000; // Choose the port you want your server to listen on
+const { ApolloServer } = require('apollo-server-express');
+const mongoose = require('mongoose');
+const { typeDefs, resolvers } = require('./graphql/schema'); // Assume you create this
 
-// Define a route
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+// Connect to MongoDB
+mongoose.connect('mongodb://localhost:27017/yourDatabaseName', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
-// Start the server
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+server.start().then(() => {
+  server.applyMiddleware({ app });
+
+ if (process.env.NODE_ENV === 'production') {
+   app.use(express.static('build'));
+   app.get('*', (req, res) => {
+     res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+    });
+  }
+
+  app.listen(port, () => {
+    console.log(`Server ready at http://localhost:${port}${server.graphqlPath}`);
+  });
 });
