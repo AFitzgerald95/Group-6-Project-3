@@ -1,33 +1,19 @@
 const express = require('express');
-const { ApolloServer } = require('apollo-server-express');
-const mongoose = require('mongoose');
-const { typeDefs, resolvers } = require('./graphql/schema'); // Assume you create this
-
-// Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/yourDatabaseName', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-});
-
+const path = require('path');
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
-server.start().then(() => {
-  server.applyMiddleware({ app });
+// Have Node serve the files for our built React app
+app.use(express.static(path.resolve(__dirname, './build')));
 
- if (process.env.NODE_ENV === 'production') {
-   app.use(express.static('build'));
-   app.get('*', (req, res) => {
-     res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
-    });
-  }
-
-  app.listen(port, () => {
-    console.log(`Server ready at http://localhost:${port}${server.graphqlPath}`);
-  });
+// Handle GET requests to /api route
+app.get("/api", (req, res) => {
+  res.json({ message: "Hello from server!" });
 });
+
+// All other GET requests not handled before will return our React app
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './build', 'index.html'));
+});
+
+app.listen(PORT, () => console.log(`Server listening on port ${PORT}.`));
