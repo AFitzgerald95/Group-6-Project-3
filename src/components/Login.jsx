@@ -1,26 +1,29 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../graphql/mutations'; // Corrected import path
+import { LOGIN_USER } from '../graphql/mutations';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [loginUser, { data, loading, error }] = useMutation(LOGIN_USER);
+  const [loginUser, { loading, error }] = useMutation(LOGIN_USER);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const { data } = await loginUser({
+      // Execute the login mutation
+      await loginUser({
         variables: {
           username: username,
           password: password,
         },
       });
-      console.log('Login successful', data);
+      console.log('Login successful');
+      // Reset form fields
       setUsername('');
       setPassword('');
-      // Redirect or manage login state as needed
+      // Add any actions after successful login, e.g., redirect or state update
     } catch (err) {
+      // Handle login error
       console.error('Login error', err);
     }
   };
@@ -49,13 +52,14 @@ function Login() {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit" disabled={loading}>Login</button>
       </form>
       {loading && <p>Loading...</p>}
-      {error && <p>Error :( Please try again</p>}
+      {error && <p>Error :( Please try again. {error.message}</p>}
     </div>
   );
 }
 
 export default Login;
+
 
